@@ -20,6 +20,7 @@ const links = [
   description="Email, LinkedIn, GitHub, CV."
   current="contact"
 >
+  <main id="main-content">
   <header class="page-head">
     <p class="eyebrow">contact</p>
     <h1>The short list.</h1>
@@ -55,12 +56,33 @@ const links = [
       occasionally loses fights with the spam filter.
     </p>
   </footer>
+  </main>
 </Page>
 
 <style>
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .links li {
+    animation: fade-up var(--dur-slow) var(--ease) both;
+  }
+  .links li:nth-child(1) { animation-delay: 120ms; }
+  .links li:nth-child(2) { animation-delay: 200ms; }
+  .links li:nth-child(3) { animation-delay: 280ms; }
+  .links li:nth-child(4) { animation-delay: 360ms; }
+
   .page-head {
     padding: var(--space-6) 0 var(--space-5);
     max-width: 640px;
+    animation: fade-up var(--dur-slow) var(--ease) both;
   }
   .eyebrow {
     font-family: var(--font-mono);

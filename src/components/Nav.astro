@@ -5,16 +5,22 @@ interface Props {
 const { current } = Astro.props;
 ---
 
-<nav class="nav">
-  <a class="logo" href="/" aria-label="Home">SA</a>
-  <ul>
+<nav class="nav" aria-label="Main navigation">
+  <a class="logo" href="/" aria-label="Stefano Arcaro — home" aria-current={current === "home" ? "page" : undefined}>SA</a>
+  <ul role="list">
     <li>
-      <a href="/work" class:list={[{ active: current === "work" }]}>work</a>
+      <a
+        href="/work"
+        class:list={[{ active: current === "work" }]}
+        aria-current={current === "work" ? "page" : undefined}
+      >work</a>
     </li>
     <li>
-      <a href="/contact" class:list={[{ active: current === "contact" }]}>
-        contact
-      </a>
+      <a
+        href="/contact"
+        class:list={[{ active: current === "contact" }]}
+        aria-current={current === "contact" ? "page" : undefined}
+      >contact</a>
     </li>
   </ul>
   <a class="recruiters" href="/contact">for recruiters →</a>

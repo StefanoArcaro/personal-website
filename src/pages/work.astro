@@ -1,52 +1,12 @@
 ---
 import Page from "../layouts/Page.astro";
+import { getCollection } from "astro:content";
 
-// TODO(stefano): replace placeholder entries with real dates, titles, blurbs.
-// Order: most recent first. `kind` tints the marker dot.
 type Kind = "role" | "project" | "education";
-interface Entry {
-  period: string;
-  title: string;
-  org?: string;
-  blurb: string;
-  kind: Kind;
-  href?: string;
-}
 
-const entries: Entry[] = [
-  {
-    period: "2025 — present",
-    title: "AI Engineer",
-    org: "ellamind",
-    blurb:
-      "Building elluminate — a closed-loop evaluation platform for LLM apps. Agentic systems, eval infra, plus whatever else is on fire that week.",
-    kind: "role",
-    href: "#elluminate",
-  },
-  {
-    period: "2024",
-    title: "Computer Vision Intern",
-    org: "TODO — company",
-    blurb:
-      "Six months on a CV research team. TODO: one line on what you shipped or learned that still matters.",
-    kind: "role",
-  },
-  {
-    period: "2022 — 2024",
-    title: "M.Sc. Machine Learning & Computer Vision",
-    org: "TODO — university",
-    blurb:
-      "Thesis: TODO. Coursework across deep learning, 3D vision, classical ML.",
-    kind: "education",
-  },
-  {
-    period: "20XX — 20XX",
-    title: "B.Sc. TODO",
-    org: "TODO — university",
-    blurb: "TODO — one sentence on focus or notable project.",
-    kind: "education",
-  },
-];
+const entries = (await getCollection("work")).sort(
+  (a, b) => b.data.order - a.data.order
+);
 
 const kindLabel: Record<Kind, string> = {
   role: "role",
@@ -60,6 +20,7 @@ const kindLabel: Record<Kind, string> = {
   description="Roles, projects, and education."
   current="work"
 >
+  <main id="main-content">
   <header class="page-head">
     <p class="eyebrow">work</p>
     <h1>A rough timeline.</h1>
@@ -69,29 +30,29 @@ const kindLabel: Record<Kind, string> = {
     </p>
   </header>
 
-  <ol class="timeline">
+  <ol class="timeline" aria-label="Work and education timeline">
     {
       entries.map((e) => (
-        <li class={`entry entry--${e.kind}`}>
+        <li class={`entry entry--${e.data.kind}`}>
           <div class="marker" aria-hidden="true" />
-          <div class="period">{e.period}</div>
+          <div class="period">{e.data.period}</div>
           <div class="body">
-            <div class="kind">{kindLabel[e.kind]}</div>
+            <div class="kind">{kindLabel[e.data.kind]}</div>
             <h2>
-              {e.href ? <a href={e.href}>{e.title}</a> : e.title}
-              {e.org && <span class="org"> · {e.org}</span>}
+              {e.data.href ? <a href={e.data.href}>{e.data.title}</a> : e.data.title}
+              {e.data.org && <span class="org"> · {e.data.org}</span>}
             </h2>
-            <p>{e.blurb}</p>
+            <p>{e.data.blurb}</p>
           </div>
         </li>
       ))
     }
   </ol>
 
-  <section id="elluminate" class="case-study">
+  <section id="elluminate" class="case-study" aria-labelledby="elluminate-heading">
     <header>
       <p class="eyebrow">case study</p>
-      <h2>elluminate — evaluation for LLM apps</h2>
+      <h2 id="elluminate-heading">elluminate — evaluation for LLM apps</h2>
       <p class="deck">
         TODO — one-paragraph hook: what the product is, who uses it, why the
         eval loop is interesting. Keep it short; the panel expands for detail.
@@ -121,6 +82,7 @@ const kindLabel: Record<Kind, string> = {
       </div>
     </details>
   </section>
+  </main>
 </Page>
 
 <style>
@@ -235,6 +197,26 @@ const kindLabel: Record<Kind, string> = {
     }
   }
 
+  /* scroll-reveal */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .entry {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .entry.visible {
+    animation: fade-up var(--dur-slow) var(--ease) both;
+  }
+
   /* case study */
   .case-study {
     margin-top: var(--space-7);
@@ -300,3 +282,27 @@ const kindLabel: Record<Kind, string> = {
     max-width: 58ch;
   }
 </style>
+
+<script>
+  const entries = document.querySelectorAll<HTMLElement>(".entry");
+
+  const observer = new IntersectionObserver(
+    (observations) => {
+      observations.forEach((obs) => {
+        if (obs.isIntersecting) {
+          const el = obs.target as HTMLElement;
+          const idx = Number(el.dataset.idx ?? 0);
+          el.style.animationDelay = `${idx * 80}ms`;
+          el.classList.add("visible");
+          observer.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  entries.forEach((el, idx) => {
+    el.dataset.idx = String(idx);
+    observer.observe(el);
+  });
+</script>

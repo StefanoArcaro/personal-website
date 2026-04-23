@@ -6,7 +6,7 @@ import Page from "../layouts/Page.astro";
   title="404 — Stefano Arcaro"
   description="The page you're looking for isn't here."
 >
-  <main class="notfound">
+  <main id="main-content" class="notfound">
     <p class="code" aria-hidden="true">404</p>
     <h1>Wrong turn.</h1>
     <p class="blurb">
@@ -21,6 +21,28 @@ import Page from "../layouts/Page.astro";
 </Page>
 
 <style>
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .code,
+  .notfound h1,
+  .blurb,
+  .links {
+    animation: fade-up var(--dur-slow) var(--ease) both;
+  }
+  .code         { animation-delay: 0ms; }
+  .notfound h1  { animation-delay: 100ms; }
+  .blurb        { animation-delay: 180ms; }
+  .links        { animation-delay: 260ms; }
+
   .notfound {
     padding: var(--space-7) 0;
     max-width: 560px;

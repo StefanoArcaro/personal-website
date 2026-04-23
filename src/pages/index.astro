@@ -4,7 +4,7 @@ import TrainerSprite from "../components/TrainerSprite.astro";
 ---
 
 <Page title="Stefano Arcaro" current="home">
-  <main class="landing">
+  <main id="main-content" class="landing">
     <section class="hero">
       <p class="eyebrow">ai engineer · bonn, de</p>
       <h1>Stefano <em>Arcaro</em></h1>
@@ -27,6 +27,28 @@ import TrainerSprite from "../components/TrainerSprite.astro";
 </Page>
 
 <style>
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .eyebrow,
+  .hero h1,
+  .tagline,
+  .cta-row {
+    animation: fade-up var(--dur-slow) var(--ease) both;
+  }
+  .eyebrow      { animation-delay: 60ms; }
+  .hero h1      { animation-delay: 140ms; }
+  .tagline      { animation-delay: 220ms; }
+  .cta-row      { animation-delay: 320ms; }
+
   .landing {
     position: relative;
     isolation: isolate;
