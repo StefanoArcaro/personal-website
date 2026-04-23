@@ -1,8 +1,8 @@
 ---
-period: "2022 — 2024"
-title: "M.Sc. Machine Learning & Computer Vision"
-org: "TODO — university"
-blurb: "Thesis: TODO. Coursework across deep learning, 3D vision, classical ML."
+period: "2022 — 2025"
+title: "M.Sc. Computer Science & Engineering"
+org: "Politecnico di Milano"
+blurb: "AI track, 110/110 cum laude. Thesis on single-view 3D reconstruction from planar templates."
 kind: "education"
 order: 20
 ---
