@@ -1,0 +1,151 @@
+---
+import Page from "../layouts/Page.astro";
+import TrainerSprite from "../components/TrainerSprite.astro";
+---
+
+<Page title="Stefano Arcaro" current="home">
+  <main class="landing">
+    <section class="hero">
+      <p class="eyebrow">ai engineer · bonn, de</p>
+      <h1>Stefano <em>Arcaro</em></h1>
+      <p class="tagline">
+        I build agentic systems that actually ship. Currently making LLM
+        evaluation less painful at ellamind.
+      </p>
+      <div class="cta-row">
+        <a class="portal" href="/world">
+          <span class="portal__sprite" aria-hidden="true">
+            <TrainerSprite />
+          </span>
+          Enter the world
+          <span class="portal__arrow">→</span>
+        </a>
+        <a class="ghost" href="/work">or skim the work →</a>
+      </div>
+    </section>
+  </main>
+</Page>
+
+<style>
+  .landing {
+    position: relative;
+    isolation: isolate;
+  }
+  .landing::before {
+    content: "";
+    position: absolute;
+    inset: -5% -10% auto -10%;
+    height: 60%;
+    background: radial-gradient(
+      60% 80% at 30% 0%,
+      color-mix(in oklab, var(--accent) 14%, transparent),
+      transparent 70%
+    );
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hero {
+    padding: var(--space-7) 0 var(--space-6);
+    max-width: 640px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .hero h1 {
+    font-size: var(--fs-hero);
+    line-height: var(--lh-tight);
+    letter-spacing: -0.035em;
+    margin-bottom: var(--space-3);
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .tagline {
+    font-size: var(--fs-md);
+    line-height: var(--lh-body);
+    color: var(--muted);
+    margin-bottom: var(--space-4);
+    max-width: 520px;
+  }
+
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .portal {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    padding: 11px 16px 11px 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid color-mix(in oklab, var(--accent) 80%, black);
+    box-shadow: 0 6px 18px -6px color-mix(in oklab, var(--accent) 40%, transparent);
+    transition:
+      transform var(--dur) var(--ease),
+      box-shadow var(--dur-slow) var(--ease),
+      background var(--dur) var(--ease);
+  }
+  .portal:hover {
+    transform: translateY(-1px);
+    background: color-mix(in oklab, var(--accent) 92%, white);
+    box-shadow:
+      0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent),
+      0 12px 26px -8px color-mix(in oklab, var(--accent) 55%, transparent);
+  }
+  .portal__arrow {
+    transition: transform var(--dur) var(--ease);
+  }
+  .portal:hover .portal__arrow {
+    transform: translateX(4px);
+  }
+  .portal__sprite {
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    background: color-mix(in oklab, var(--accent-ink) 14%, transparent);
+    border-radius: 4px;
+    padding: 2px;
+  }
+  .portal__sprite :global(svg) {
+    width: 16px;
+    height: 20px;
+    image-rendering: pixelated;
+  }
+
+  .ghost {
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    padding: 10px 2px;
+    transition: color var(--dur-fast) var(--ease);
+  }
+  .ghost:hover {
+    color: var(--text);
+  }
+</style>

@@ -1,0 +1,20 @@
+# Cloudflare Pages headers — applied per path prefix.
+# Keep conservative defaults; tune once real content lands.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Hashed build assets — safe to cache forever.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts (Google Fonts are cross-origin, but if we ever self-host) — long cache.
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML — revalidate so deploys show up immediately.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

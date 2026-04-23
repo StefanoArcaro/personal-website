@@ -1,0 +1,157 @@
+---
+import Page from "../layouts/Page.astro";
+
+// TODO(stefano): confirm handles / email / CV filename.
+const email = "hello@stefanoarcaro.com"; // TODO: confirm preferred inbox
+const linkedin = "https://www.linkedin.com/in/stefano-arcaro/"; // TODO: confirm
+const github = "https://github.com/stefanoarcaro"; // TODO: confirm
+const cvHref = "/cv.pdf"; // TODO: drop CV file into public/cv.pdf
+
+const links = [
+  { label: "Email", value: email, href: `mailto:${email}`, preferred: true },
+  { label: "LinkedIn", value: linkedin.replace(/^https?:\/\//, ""), href: linkedin },
+  { label: "GitHub", value: github.replace(/^https?:\/\//, ""), href: github },
+  { label: "CV (PDF)", value: "download", href: cvHref, download: true },
+];
+---
+
+<Page
+  title="Contact — Stefano Arcaro"
+  description="Email, LinkedIn, GitHub, CV."
+  current="contact"
+>
+  <header class="page-head">
+    <p class="eyebrow">contact</p>
+    <h1>The short list.</h1>
+    <p class="lede">
+      Email is fastest. If it's about a role: lead with the problem, not the
+      stack. If it's about a game or a book: go long.
+    </p>
+  </header>
+
+  <ul class="links">
+    {
+      links.map((l) => (
+        <li>
+          <a
+            href={l.href}
+            download={l.download ? "" : undefined}
+            rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+            target={l.href.startsWith("http") ? "_blank" : undefined}
+          >
+            <span class="label">{l.label}</span>
+            <span class="value">{l.value}</span>
+            {l.preferred && <span class="pill">preferred</span>}
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <footer class="foot">
+    <p>
+      Bonn, Germany · Usually replies within a day. If not, bump it — mail
+      occasionally loses fights with the spam filter.
+    </p>
+  </footer>
+</Page>
+
+<style>
+  .page-head {
+    padding: var(--space-6) 0 var(--space-5);
+    max-width: 640px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-2);
+  }
+  .page-head h1 {
+    font-size: var(--fs-2xl);
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-3);
+  }
+  .lede {
+    color: var(--muted);
+    font-size: var(--fs-md);
+    line-height: var(--lh-body);
+    max-width: 560px;
+  }
+
+  .links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 640px;
+    border-top: 1px solid var(--border);
+  }
+  .links li {
+    border-bottom: 1px solid var(--border);
+  }
+  .links a {
+    display: grid;
+    grid-template-columns: 120px 1fr auto auto;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    color: var(--text);
+    transition: color var(--dur-fast) var(--ease), padding var(--dur) var(--ease);
+  }
+  .links a:hover {
+    color: var(--accent);
+    padding-left: 8px;
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .value {
+    font-size: var(--fs-base);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid color-mix(in oklab, var(--accent) 40%, transparent);
+    background: color-mix(in oklab, var(--accent) 10%, transparent);
+    padding: 2px 6px;
+    border-radius: 999px;
+  }
+  .arrow {
+    color: var(--muted);
+    transition: transform var(--dur) var(--ease), color var(--dur-fast) var(--ease);
+  }
+  .links a:hover .arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .foot {
+    margin-top: var(--space-6);
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    max-width: 540px;
+  }
+
+  @media (max-width: 560px) {
+    .links a {
+      grid-template-columns: 1fr auto;
+      gap: var(--space-2);
+    }
+    .label {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

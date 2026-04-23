@@ -1,0 +1,139 @@
+---
+import Base from "../layouts/Base.astro";
+import TrainerSprite from "../components/TrainerSprite.astro";
+---
+
+<Base
+  title="The World — Stefano Arcaro"
+  description="Under construction. Come back when the trainer's awake."
+>
+  <main class="world">
+    <a href="/" class="back">← back to the real world</a>
+
+    <div class="stage">
+      <div class="sprite-box">
+        <TrainerSprite size={160} />
+        <div class="shadow"></div>
+      </div>
+      <h1>zzz…</h1>
+      <p class="sub">
+        The world is still under construction.<br />
+        The trainer's asleep. Check back soon.
+      </p>
+    </div>
+
+    <div class="pixel-grid" aria-hidden="true"></div>
+  </main>
+</Base>
+
+<style>
+  .world {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: var(--space-5) var(--space-4);
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        80% 60% at 50% 40%,
+        color-mix(in oklab, var(--accent) 10%, var(--bg)),
+        var(--bg) 70%
+      );
+  }
+
+  .pixel-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(
+        to right,
+        color-mix(in oklab, var(--accent) 6%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--accent) 6%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 32px 32px;
+    mask-image: radial-gradient(60% 60% at 50% 50%, black 0%, transparent 85%);
+    z-index: 0;
+  }
+
+  .back {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+    z-index: 2;
+  }
+  .back:hover {
+    color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 10%, transparent);
+  }
+
+  .stage {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+  }
+
+  .sprite-box {
+    position: relative;
+    padding: var(--space-3) var(--space-4);
+  }
+  .sprite-box :global(svg) {
+    image-rendering: pixelated;
+    animation: bob 2.4s var(--ease) infinite;
+  }
+  .shadow {
+    width: 80%;
+    height: 8px;
+    margin: 6px auto 0;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--sprite-outline) 70%, transparent);
+    filter: blur(4px);
+    animation: squash 2.4s var(--ease) infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes squash {
+    0%, 100% { transform: scaleX(1); opacity: 0.6; }
+    50% { transform: scaleX(0.85); opacity: 0.4; }
+  }
+
+  .stage h1 {
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    font-weight: 500;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    max-width: 40ch;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sprite-box :global(svg),
+    .shadow {
+      animation: none;
+    }
+  }
+</style>

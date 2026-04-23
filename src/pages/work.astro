@@ -1,0 +1,302 @@
+---
+import Page from "../layouts/Page.astro";
+
+// TODO(stefano): replace placeholder entries with real dates, titles, blurbs.
+// Order: most recent first. `kind` tints the marker dot.
+type Kind = "role" | "project" | "education";
+interface Entry {
+  period: string;
+  title: string;
+  org?: string;
+  blurb: string;
+  kind: Kind;
+  href?: string;
+}
+
+const entries: Entry[] = [
+  {
+    period: "2025 — present",
+    title: "AI Engineer",
+    org: "ellamind",
+    blurb:
+      "Building elluminate — a closed-loop evaluation platform for LLM apps. Agentic systems, eval infra, plus whatever else is on fire that week.",
+    kind: "role",
+    href: "#elluminate",
+  },
+  {
+    period: "2024",
+    title: "Computer Vision Intern",
+    org: "TODO — company",
+    blurb:
+      "Six months on a CV research team. TODO: one line on what you shipped or learned that still matters.",
+    kind: "role",
+  },
+  {
+    period: "2022 — 2024",
+    title: "M.Sc. Machine Learning & Computer Vision",
+    org: "TODO — university",
+    blurb:
+      "Thesis: TODO. Coursework across deep learning, 3D vision, classical ML.",
+    kind: "education",
+  },
+  {
+    period: "20XX — 20XX",
+    title: "B.Sc. TODO",
+    org: "TODO — university",
+    blurb: "TODO — one sentence on focus or notable project.",
+    kind: "education",
+  },
+];
+
+const kindLabel: Record<Kind, string> = {
+  role: "role",
+  project: "project",
+  education: "education",
+};
+---
+
+<Page
+  title="Work — Stefano Arcaro"
+  description="Roles, projects, and education."
+  current="work"
+>
+  <header class="page-head">
+    <p class="eyebrow">work</p>
+    <h1>A rough timeline.</h1>
+    <p class="lede">
+      Roles, projects, education — in reverse chronological order. The shorter
+      the entry, the more I've moved on from it.
+    </p>
+  </header>
+
+  <ol class="timeline">
+    {
+      entries.map((e) => (
+        <li class={`entry entry--${e.kind}`}>
+          <div class="marker" aria-hidden="true" />
+          <div class="period">{e.period}</div>
+          <div class="body">
+            <div class="kind">{kindLabel[e.kind]}</div>
+            <h2>
+              {e.href ? <a href={e.href}>{e.title}</a> : e.title}
+              {e.org && <span class="org"> · {e.org}</span>}
+            </h2>
+            <p>{e.blurb}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+
+  <section id="elluminate" class="case-study">
+    <header>
+      <p class="eyebrow">case study</p>
+      <h2>elluminate — evaluation for LLM apps</h2>
+      <p class="deck">
+        TODO — one-paragraph hook: what the product is, who uses it, why the
+        eval loop is interesting. Keep it short; the panel expands for detail.
+      </p>
+    </header>
+
+    <details class="panel">
+      <summary>
+        <span>Read the long version</span>
+        <span class="chev" aria-hidden="true">→</span>
+      </summary>
+      <div class="panel__body">
+        <h3>The problem</h3>
+        <p>TODO — why chatbot evaluation is hard, and who was hurting.</p>
+
+        <h3>What I built</h3>
+        <p>
+          TODO — closed eval loop (criteria → rate → iterate), the pieces you
+          owned, the tradeoffs you made.
+        </p>
+
+        <h3>What shipped</h3>
+        <p>
+          TODO — outcomes: customers using it, scale, a concrete before/after
+          if you have one.
+        </p>
+      </div>
+    </details>
+  </section>
+</Page>
+
+<style>
+  .page-head {
+    padding: var(--space-6) 0 var(--space-5);
+    max-width: 640px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 var(--space-2);
+  }
+  .page-head h1 {
+    font-size: var(--fs-2xl);
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-3);
+  }
+  .lede {
+    color: var(--muted);
+    font-size: var(--fs-md);
+    line-height: var(--lh-body);
+    max-width: 560px;
+  }
+
+  /* timeline */
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    border-left: 1px solid var(--border);
+    margin-left: 6px;
+  }
+  .entry {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-4);
+    padding: var(--space-3) 0 var(--space-4) var(--space-4);
+    position: relative;
+  }
+  .marker {
+    position: absolute;
+    left: -6px;
+    top: 24px;
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 2px solid var(--muted);
+    transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+  }
+  .entry--role .marker {
+    border-color: var(--accent);
+  }
+  .entry--education .marker {
+    border-color: var(--muted);
+  }
+  .entry:hover .marker {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .period {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    padding-top: 2px;
+  }
+  .body .kind {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .body h2 {
+    font-size: var(--fs-lg);
+    margin: 0 0 6px;
+    letter-spacing: -0.015em;
+  }
+  .body h2 .org {
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .body h2 a {
+    color: var(--text);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+  }
+  .body h2 a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .body p {
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    max-width: 58ch;
+  }
+
+  @media (max-width: 640px) {
+    .entry {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+    .period {
+      padding-top: 0;
+    }
+  }
+
+  /* case study */
+  .case-study {
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--border);
+    max-width: 720px;
+  }
+  .case-study h2 {
+    font-size: var(--fs-xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-2);
+  }
+  .case-study .deck {
+    color: var(--muted);
+    font-size: var(--fs-md);
+    line-height: var(--lh-body);
+    margin-bottom: var(--space-4);
+  }
+  .panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color var(--dur-fast) var(--ease);
+  }
+  .panel[open] {
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  }
+  .panel summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    font-weight: 500;
+    list-style: none;
+    color: var(--text);
+  }
+  .panel summary::-webkit-details-marker {
+    display: none;
+  }
+  .panel summary .chev {
+    color: var(--accent);
+    transition: transform var(--dur) var(--ease);
+  }
+  .panel[open] summary .chev {
+    transform: rotate(90deg);
+  }
+  .panel__body {
+    padding: 0 var(--space-4) var(--space-4);
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+  }
+  .panel__body h3 {
+    font-size: var(--fs-md);
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin: var(--space-3) 0 6px;
+  }
+  .panel__body p {
+    margin: 0;
+    max-width: 58ch;
+  }
+</style>

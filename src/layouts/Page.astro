@@ -1,0 +1,27 @@
+---
+import Base from "./Base.astro";
+import Nav from "../components/Nav.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: "home" | "work" | "contact";
+}
+
+const { title, description, current } = Astro.props;
+---
+
+<Base title={title} description={description}>
+  <div class="page">
+    <Nav current={current} />
+    <slot />
+  </div>
+</Base>
+
+<style>
+  .page {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-4) var(--space-7);
+  }
+</style>

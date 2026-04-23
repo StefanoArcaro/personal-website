@@ -1,0 +1,72 @@
+---
+import Page from "../layouts/Page.astro";
+---
+
+<Page
+  title="404 — Stefano Arcaro"
+  description="The page you're looking for isn't here."
+>
+  <main class="notfound">
+    <p class="code" aria-hidden="true">404</p>
+    <h1>Wrong turn.</h1>
+    <p class="blurb">
+      Either the page moved, never existed, or you wandered off the map.
+      Either way: nothing here.
+    </p>
+    <div class="links">
+      <a href="/" class="primary">← back home</a>
+      <a href="/world" class="secondary">or try the overworld →</a>
+    </div>
+  </main>
+</Page>
+
+<style>
+  .notfound {
+    padding: var(--space-7) 0;
+    max-width: 560px;
+  }
+  .code {
+    font-family: var(--font-mono);
+    font-size: 120px;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: color-mix(in oklab, var(--accent) 18%, transparent);
+    margin-bottom: var(--space-3);
+    user-select: none;
+  }
+  .notfound h1 {
+    font-size: var(--fs-2xl);
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-3);
+  }
+  .blurb {
+    color: var(--muted);
+    font-size: var(--fs-md);
+    line-height: var(--lh-body);
+    margin-bottom: var(--space-5);
+    max-width: 440px;
+  }
+  .links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .primary {
+    color: var(--text);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+    transition: color var(--dur-fast) var(--ease);
+  }
+  .primary:hover {
+    color: var(--accent);
+  }
+  .secondary {
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    transition: color var(--dur-fast) var(--ease);
+  }
+  .secondary:hover {
+    color: var(--text);
+  }
+</style>
